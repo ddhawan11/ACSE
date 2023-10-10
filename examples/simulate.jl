@@ -2,14 +2,16 @@ using PauliOperators
 using UnitaryPruning
 using ACSE
 
+norb = 6
+H = ACSE.transform_molecular_Hamiltonian("H6_0.75")
 
+ket = ACSE.reference_state(norb)
 
-H = ACSE.transform_molecular_Hamiltonian("data_h6")
-A = ACSE.acse_residual_pool(6,6)
+reference_energy = ACSE.calc_energy(H, ket)
+println("Reference energy:", real(reference_energy))
 
-println(length(A))
-exit()
-ket = KetBitString(12, 31)
-for op in A
-    ACSE.commutator(H,op,ket)
-end
+A = ACSE.acse_residual_pool(norb, norb)
+
+generator = ACSE.find_generator(A, H, ket)
+println(generator)
+

@@ -3,18 +3,18 @@ import pyscf
 import os
 from pyscf import gto, ao2mo
 
-molecule = "H2_"
+molecule = "H6_"
 mol = gto.Mole()
 R = 0.75
 label = molecule + str(R)
 atom = [
         ["h",   (0,       0.0,        0.0)],   
-        ["h",   ( R,       0.0,        0.0)],]
-#        ["h",   ( 0.0,      -R,        0.0)],   
-#        ["h",   ( 0.0,       R,        0.0)], 
-#        ["h",   ( 0.0,        0.0,      -R)],   
-#        ["h",   ( 0.0,        0.0,       R)],  
-#        ]
+        ["h",   ( R,       0.0,        0.0)],
+        ["h",   ( 2*R,      0.0,        0.0)],   
+        ["h",   ( 3*R,       0.0,        0.0)], 
+        ["h",   ( 4*R,        0.0,      0.0)],   
+        ["h",   ( 5*R,        0.0,       0.0)],  
+        ]
 
 basis = "sto-3g"
 mol.atom = atom

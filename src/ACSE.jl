@@ -4,7 +4,8 @@ module ACSE
 using PauliOperators
 using UnitaryPruning
 
-include("jordan_wigner_transform.jl")
+include("molecular_ham_jw.jl")
 include("operator_pool.jl")
 include("gradient_calc.jl")
+include("operations.jl")
 end
