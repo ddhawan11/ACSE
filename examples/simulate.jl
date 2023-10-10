@@ -12,6 +12,6 @@ println("Reference energy:", real(reference_energy))
 
 A = ACSE.acse_residual_pool(norb, norb)
 
-generator = ACSE.find_generator(A, H, ket)
+generator, curr_grad = ACSE.find_generator(A, H, ket)
 println(generator)
 

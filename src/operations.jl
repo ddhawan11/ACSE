@@ -1,5 +1,3 @@
-using ACSE
-
 function calc_energy(H, ket)
     energy = zero(ComplexF64)
     for (key,value) in H.ops

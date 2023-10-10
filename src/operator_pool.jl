@@ -87,5 +87,5 @@ function find_generator(A::Vector{PauliSum{N}}, H::PauliSum{N}, ket::KetBitStrin
             max_grad = abs(gradient)
         end
     end
-    return curr_oper
+    return curr_oper, max_grad
 end
