@@ -68,11 +68,11 @@ function transform_molecular_Hamiltonian(data_dir="H2_0.75")
     ints_1 = npzread(data_dir*"/h1.npy");
     ints_2 = npzread(data_dir*"/h2.npy");
     ints_2 = permutedims(ints_2, (3,2,1,4)) #Change to Physicist Notation
-    println(ints_0)
     h1, h2 = spatial_to_spin_orb(ints_1, ints_2) #Convert to Spin Orbitals 
-#    display(h2)
-#    exit()
-    qubit_ham = one_body_transform(h1) + two_body_transform(h2)
+
+    norb = size(ints_1)[1]
+    nuc_rep = PauliSum(Dict(FixedPhasePauli(join(["I" for i in 1:norb*2]))=>complex(ints_0)))
+    qubit_ham = nuc_rep + one_body_transform(h1) + two_body_transform(h2)
     clip!(qubit_ham, thresh=1e-15)
 
     return qubit_ham

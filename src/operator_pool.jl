@@ -80,12 +80,22 @@ end
 function find_generator(A::Vector{PauliSum{N}}, H::PauliSum{N}, ket::KetBitString{N}) where N
     max_grad = 0.0
     curr_oper = PauliSum(N)
+    i = 1
+    j = 1
     for op in A
         gradient = ACSE.compute_grad(H,op,ket)
-        if abs(gradient) > max_grad
+#        if abs(gradient) > 1e-8
+#            println("finding the operator: ", gradient)
+#        end
+        gradient = real(gradient)
+        if abs(gradient) > abs(max_grad)
             curr_oper = op
-            max_grad = abs(gradient)
+            max_grad = gradient
+            j = i
         end
+        i+=1
     end
+    splice!(A,j)
+    println("Current Index:", j)
     return curr_oper, max_grad
 end

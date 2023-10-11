@@ -6,9 +6,9 @@ using Printf
 bfs_thresh  = 1e-3
 grad_thresh = 1e-8
 
-norb = 2
-H = ACSE.transform_molecular_Hamiltonian("H2_0.75")
-println("Hamiltonian", H)
+norb = 6
+H = ACSE.transform_molecular_Hamiltonian("H6_0.75")
+
 ket = ACSE.reference_state(norb)
 
 reference_energy = ACSE.calc_energy(H, ket)
