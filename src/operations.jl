@@ -1,3 +1,5 @@
+## Calculate Expectation Value
+
 function calc_energy(H, ket)
     energy = zero(ComplexF64)
     for (key,value) in H.ops
@@ -6,6 +8,7 @@ function calc_energy(H, ket)
     return energy
 end
 
+## Hartree-Fock reference state
 function reference_state(norb)
     n_spinorb    = norb * 2
     state_binary = 0

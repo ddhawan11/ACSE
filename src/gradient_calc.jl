@@ -2,6 +2,7 @@ using PauliOperators
 using ACSE
 using UnitaryPruning
 
+## \langle 0| [H, A]|0 \rangle
 function compute_grad(A::PauliSum{N}, B::PauliSum{N}, ket) where N
     exp_val = zero(ComplexF64) 
     commutator = A*B - B*A

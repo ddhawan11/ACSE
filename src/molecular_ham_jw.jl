@@ -72,7 +72,8 @@ function transform_molecular_Hamiltonian(data_dir="H2_0.75")
 
     norb = size(ints_1)[1]
     nuc_rep = PauliSum(Dict(FixedPhasePauli(join(["I" for i in 1:norb*2]))=>complex(ints_0)))
-    qubit_ham = nuc_rep + one_body_transform(h1) + two_body_transform(h2)
+    
+    qubit_ham = nuc_rep + one_body_transform(h1) + two_body_transform(h2) # Add nuclear repulsion    
     clip!(qubit_ham, thresh=1e-15)
 
     return qubit_ham
