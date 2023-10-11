@@ -3,7 +3,7 @@ using UnitaryPruning
 using ACSE
 using Printf
 
-bfs_thresh  = 1e-3
+bfs_thresh  = 1e-6
 grad_thresh = 1e-8
 
 norb = 2
