@@ -11,7 +11,7 @@ norb = 2
 ## Transform Molecular Hamiltonian through JW Mapping
 
 H = ACSE.transform_molecular_Hamiltonian("H2_0.75")
-println("Hamiltonian", H)
+#println("Hamiltonian", H)
 
 ## Define HF reference state
 ket = ACSE.reference_state(norb)
@@ -21,7 +21,7 @@ reference_energy = ACSE.calc_energy(H, ket)
 @printf("Reference energy: %10.8f\n", real(reference_energy))
 
 ## Generate Operator Pool
-A = ACSE.acse_residual_pool(norb, norb)
+A = ACSE.acse_residual_pool_test(norb, norb)
 
 ## Find transformed Heisenberg Hamiltonian
 H_transformed = ACSE.evolve_Hamiltonian(A, H, ket, bfs_thresh, grad_thresh)
