@@ -50,7 +50,7 @@ function det_evolution(generators::PauliSum{N}, H::PauliSum{N}, ket, grad ; thre
 #        sizehint!(branch_opers.ops, 1000)
         for (oi,oi_coeff) in opers.ops
             
-            if commute(oi, g)
+            if PauliOperators.commute(oi, g)
                 if haskey(branch_opers, oi)
                     branch_opers[oi] += oi_coeff
                 else
@@ -90,7 +90,7 @@ function evolve_Hamiltonian(A, H, ket, bfs_thresh, grad_thresh)
     generators, curr_grad = ACSE.find_generator(A, H, ket)
     @printf("Number of Paulis in Hamiltonian operator: %i\n", length(H))
 #    println("generators", generators)
-    curr_grad = -0.057416530623 ## Hard-coded from adapt for H2
+#    curr_grad = 2*-0.057416530623 ## Hard-coded from adapt for H2
     generators *= curr_grad
     println("curr_grad ", curr_grad)
 
@@ -101,7 +101,7 @@ function evolve_Hamiltonian(A, H, ket, bfs_thresh, grad_thresh)
         println("H_transformed:", H_transformed)
         energy = ACSE.calc_energy(H_transformed, ket)
         @printf("Energy: %10.8f\n", real(energy))
-        exit()
+#        exit()
         H = H_transformed
         
         generators, curr_grad = ACSE.find_generator(A, H, ket)

@@ -2,6 +2,7 @@ using PauliOperators
 using UnitaryPruning
 using ACSE
 using Printf
+using LinearAlgebra
 
 bfs_thresh  = 1e-6
 grad_thresh = 1e-8
@@ -13,6 +14,8 @@ norb = 2
 H = ACSE.transform_molecular_Hamiltonian("H2_0.75")
 #println("Hamiltonian", H)
 
+println(eigvals(Matrix(H)))
+#exit()
 ## Define HF reference state
 ket = ACSE.reference_state(norb)
 
