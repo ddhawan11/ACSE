@@ -15,6 +15,7 @@ function reference_state(norb)
     for i in 1:norb
         state_binary += 2^(i-1)
     end
+#    println(state_binary)
 
     KetBitString(n_spinorb, state_binary)
 

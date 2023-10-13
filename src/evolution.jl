@@ -20,7 +20,7 @@ function BFS(generators::PauliSum{N}, H::PauliSum{N}, ket, grad; thresh=1e-4) wh
                 # sin branch
                 oj = oi * g    # multiply the paulis
                 oj = Pauli{N}(PauliOperators.phase(oi, g), oj)
-                sum!(sin_branch, oj * vsin * coeff * 1im)
+                sum!(sin_branch, oj * vsin * coeff)
 
             end
         end
@@ -67,7 +67,8 @@ function det_evolution(generators::PauliSum{N}, H::PauliSum{N}, ket, grad ; thre
                 end
             
                 # sin branch
-                coeff = vsin * 1im * oi_coeff
+                coeff = vsin *  oi_coeff
+                    
                 oi = oi * g    # multiply the pauli's
 
                 if haskey(branch_opers, oi) # Add operator to dictionary if the key doesn't exist
@@ -86,24 +87,26 @@ function det_evolution(generators::PauliSum{N}, H::PauliSum{N}, ket, grad ; thre
 end
 
 function evolve_Hamiltonian(A, H, ket, bfs_thresh, grad_thresh)
+
+    old_grad = 0.0
     
     generators, curr_grad = ACSE.find_generator(A, H, ket)
     @printf("Number of Paulis in Hamiltonian operator: %i\n", length(H))
-#    println("generators", generators)
-#    curr_grad = 2*-0.057416530623 ## Hard-coded from adapt for H2
-    generators *= curr_grad
+
+#    curr_grad = 2*0.05741653062A3 ## Hard-coded from adapt for H2
+    generators *= 2*curr_grad
     println("curr_grad ", curr_grad)
-
-    while abs(curr_grad) > grad_thresh     
-
-#        H_transformed = BFS(generators, H, ket, curr_grad, thresh=bfs_thresh)
+    while abs(old_grad - curr_grad) > grad_thresh     
+ #        H_transformed = BFS(generators, H, ket, curr_grad, thresh=bfs_thresh)
         H_transformed = det_evolution(generators, H, ket, curr_grad, thresh=bfs_thresh)
-        println("H_transformed:", H_transformed)
+
+        println("Exact Diagonalization for transformed Hamiltonian: ", eigvals(Matrix(H_transformed)))
+         
         energy = ACSE.calc_energy(H_transformed, ket)
-        @printf("Energy: %10.8f\n", real(energy))
-#        exit()
+        @printf("Energy: %10.8f+%10.8fi\n", real(energy),imag(energy))
+ #       exit()
         H = H_transformed
-        
+        old_grad = curr_grad
         generators, curr_grad = ACSE.find_generator(A, H, ket)
         @printf("Number of Paulis in Hamiltonian operator: %i\n", length(H))
         generators *= curr_grad

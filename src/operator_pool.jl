@@ -165,7 +165,7 @@ function find_generator(A::Vector{PauliSum{N}}, H::PauliSum{N}, ket::KetBitStrin
 #        if abs(gradient) > 1e-8
 #            println("finding the operator: ", gradient)
 #        end
-        gradient = real(gradient)
+#        gradient = real(gradient)
         if abs(gradient) > abs(max_grad)
             curr_oper = op
             max_grad = gradient
