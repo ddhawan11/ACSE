@@ -20,7 +20,7 @@ function BFS(generators::PauliSum{N}, H::PauliSum{N}, ket, grad; thresh=1e-4) wh
                 # sin branch
                 oj = oi * g    # multiply the paulis
                 oj = Pauli{N}(PauliOperators.phase(oi, g), oj)
-                sum!(sin_branch, oj * vsin * coeff)
+                sum!(sin_branch, oj * vsin * coeff * -1)
 
             end
         end
@@ -67,14 +67,14 @@ function det_evolution(generators::PauliSum{N}, H::PauliSum{N}, ket, grad ; thre
                 end
             
                 # sin branch
-                coeff = vsin *  oi_coeff
-                    
-                oi = oi * g    # multiply the pauli's
+                coeff = vsin * oi_coeff * -1
 
-                if haskey(branch_opers, oi) # Add operator to dictionary if the key doesn't exist
-                    branch_opers[oi] += coeff * (1im)^PauliOperators.phase(oi,g)
+                oj = Pauli{N}(0,oi) * Pauli{N}(0,g)    # multiply the pauli's
+
+                if haskey(branch_opers, oj.pauli) # Add operator to dictionary if the key doesn't exist
+                    branch_opers[oj.pauli] += coeff * (1im)^oj.θ
                 else
-                    branch_opers[oi] = coeff * (1im)^PauliOperators.phase(oi,g) #Modify the coeff if the key exists already
+                    branch_opers[oj.pauli] = coeff * (1im)^oj.θ  #Modify the coeff if the key exists already
                 end
             end
             opers = deepcopy(branch_opers) # Change the list of operators to the next row
@@ -93,12 +93,12 @@ function evolve_Hamiltonian(A, H, ket, bfs_thresh, grad_thresh)
     generators, curr_grad = ACSE.find_generator(A, H, ket)
     @printf("Number of Paulis in Hamiltonian operator: %i\n", length(H))
 
-#    curr_grad = 2*0.05741653062A3 ## Hard-coded from adapt for H2
-    generators *= 2*curr_grad
+#    curr_grad = 0.057416530623 ## Hard-coded from adapt for H2
+    generators *= -curr_grad
     println("curr_grad ", curr_grad)
     while abs(old_grad - curr_grad) > grad_thresh     
- #        H_transformed = BFS(generators, H, ket, curr_grad, thresh=bfs_thresh)
-        H_transformed = det_evolution(generators, H, ket, curr_grad, thresh=bfs_thresh)
+         H_transformed = BFS(generators, H, ket, curr_grad, thresh=bfs_thresh)
+#        H_transformed = det_evolution(generators, H, ket, curr_grad, thresh=bfs_thresh)
 
         println("Exact Diagonalization for transformed Hamiltonian: ", eigvals(Matrix(H_transformed)))
          
