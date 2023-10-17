@@ -86,6 +86,23 @@ function det_evolution(generators::PauliSum{N}, H::PauliSum{N}, ket, grad ; thre
     return H_transformed
 end
 
+function exact_evolution(generators::PauliSum{N}, H::PauliSum{N}) where N
+    
+    o_mat = Matrix(H)
+    U = Matrix(Pauli(N))
+
+    for (g,g_coeff) in generators.ops
+        α = g_coeff
+        U = cos(α/2) .* U .- 1*sin(α/2) .* U * Matrix(g)
+    end
+    evolved_Hamiltonian = U'*o_mat*U
+
+    ei = diag(U'*o_mat*U)
+    
+    println("ei", ei, "\n", "\n")
+end
+
+
 function evolve_Hamiltonian(A, H, ket, bfs_thresh, grad_thresh)
 
     old_grad = 0.0
@@ -94,22 +111,22 @@ function evolve_Hamiltonian(A, H, ket, bfs_thresh, grad_thresh)
     @printf("Number of Paulis in Hamiltonian operator: %i\n", length(H))
 
 #    curr_grad = 0.057416530623 ## Hard-coded from adapt for H2
-    generators *= -curr_grad
+    generators *= curr_grad*0.01
     println("curr_grad ", curr_grad)
     while abs(old_grad - curr_grad) > grad_thresh     
-         H_transformed = BFS(generators, H, ket, curr_grad, thresh=bfs_thresh)
+        H_transformed = BFS(generators, H, ket, curr_grad, thresh=bfs_thresh)
 #        H_transformed = det_evolution(generators, H, ket, curr_grad, thresh=bfs_thresh)
-
-        println("Exact Diagonalization for transformed Hamiltonian: ", eigvals(Matrix(H_transformed)))
+#        exact_evolution(generators, H)
+#        println("Exact Diagonalization for transformed Hamiltonian: ", eigvals(Matrix(H_transformed)))
+#        display(Matrix(H_transformed))
          
         energy = ACSE.calc_energy(H_transformed, ket)
         @printf("Energy: %10.8f+%10.8fi\n", real(energy),imag(energy))
- #       exit()
+#        exit()
         H = H_transformed
         old_grad = curr_grad
         generators, curr_grad = ACSE.find_generator(A, H, ket)
-        @printf("Number of Paulis in Hamiltonian operator: %i\n", length(H))
-        generators *= curr_grad
+        generators *= curr_grad * 0.01
         println("curr_grad ", curr_grad)
 
     end

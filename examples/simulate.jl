@@ -7,11 +7,11 @@ using LinearAlgebra
 bfs_thresh  = 1e-6
 grad_thresh = 1e-8
 
-norb = 2
+norb = 4
 
 ## Transform Molecular Hamiltonian through JW Mapping
 
-H = ACSE.transform_molecular_Hamiltonian("H2_0.75")
+H = ACSE.transform_molecular_Hamiltonian("H4_0.75")
 #println("Hamiltonian", H)
 
 println("Exact Diagonalization for untransformed Hamiltonian: ", eigvals(Matrix(H)))
