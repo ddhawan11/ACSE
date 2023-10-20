@@ -12,7 +12,7 @@ function BFS(generators::PauliSum{N}, H::PauliSum{N}, ket, grad; thresh=1e-4) wh
 
         for (oi,coeff) in o_transformed.ops
 
-            if commute(oi, g) == false
+            if PauliOperators.commute(oi, g) == false
 
                 # cos branch
                 o_transformed[oi] = coeff * vcos 
