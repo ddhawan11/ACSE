@@ -173,6 +173,6 @@ function find_generator(A::Vector{PauliSum{N}}, H::PauliSum{N}, ket::KetBitStrin
         end
         i+=1
     end
-    println("Current Index:", j)
+    #println("Current Index:", j)
     return curr_oper, max_grad
 end
