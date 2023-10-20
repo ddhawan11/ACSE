@@ -1,3 +1,11 @@
+function delta(i,j)
+    if i==j
+        return 1
+    else
+        return 0
+    end
+end
+    
 function build_K_matrix(h1, h2)
     norb = size(h1)[1]
     K    = zeros(size(h2))
@@ -14,6 +22,7 @@ function build_K_matrix(h1, h2)
         end
     end
 #    display(K)
+#    exit()
     return K
 end    
 
