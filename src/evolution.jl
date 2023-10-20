@@ -111,14 +111,13 @@ function evolve_Hamiltonian(A, H, ket, bfs_thresh, grad_thresh)
     @printf("Number of Paulis in Hamiltonian operator: %i\n", length(H))
 
 #    curr_grad = 0.057416530623 ## Hard-coded from adapt for H2
-    generators *= curr_grad*0.01
+    generators *= curr_grad*0.1
     println("curr_grad ", curr_grad)
     while abs(old_grad - curr_grad) > grad_thresh     
         H_transformed = BFS(generators, H, ket, curr_grad, thresh=bfs_thresh)
 #        H_transformed = det_evolution(generators, H, ket, curr_grad, thresh=bfs_thresh)
 #        exact_evolution(generators, H)
-#        println("Exact Diagonalization for transformed Hamiltonian: ", eigvals(Matrix(H_transformed)))
-#        display(Matrix(H_transformed))
+
          
         energy = ACSE.calc_energy(H_transformed, ket)
         @printf("Energy: %10.8f+%10.8fi\n", real(energy),imag(energy))
@@ -126,7 +125,7 @@ function evolve_Hamiltonian(A, H, ket, bfs_thresh, grad_thresh)
         H = H_transformed
         old_grad = curr_grad
         generators, curr_grad = ACSE.find_generator(A, H, ket)
-        generators *= curr_grad * 0.01
+        generators *= curr_grad * 0.1
         println("curr_grad ", curr_grad)
 
     end

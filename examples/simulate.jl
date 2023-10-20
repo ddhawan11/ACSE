@@ -4,15 +4,16 @@ using ACSE
 using Printf
 using LinearAlgebra
 
-bfs_thresh  = 1e-6
+bfs_thresh  = 1e-5
 grad_thresh = 1e-8
 
-norb = 2
-
+## Number of orbitals and electrons 
+norb = 2 ##Need to set this automatically
+N_el = 2
 ## Transform Molecular Hamiltonian through JW Mapping
 
 #H = ACSE.transform_molecular_Hamiltonian("H4_0.75")
-H = ACSE.transform_contracted_Hamiltonian("H2_0.75")
+H = ACSE.transform_contracted_Hamiltonian("H2_0.75", N_el)
 #println("Hamiltonian", H)
 
 #println("Exact Diagonalization for untransformed Hamiltonian: ", eigvals(Matrix(H)))
