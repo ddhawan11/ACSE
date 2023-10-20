@@ -1,6 +1,6 @@
 using Printf
 
-function BFS(generators::PauliSum{N}, H::PauliSum{N}, ket, grad; thresh=1e-4) where N
+function BFS(generators::PauliSum{N}, H::PauliSum{N}, ket; thresh=1e-4) where N
 
     o_transformed = deepcopy(H)
     
@@ -32,7 +32,7 @@ function BFS(generators::PauliSum{N}, H::PauliSum{N}, ket, grad; thresh=1e-4) wh
     return o_transformed
 end
 
-function det_evolution(generators::PauliSum{N}, H::PauliSum{N}, ket, grad ; thresh=1e-3) where {N}
+function det_evolution(generators::PauliSum{N}, H::PauliSum{N}, ket; thresh=1e-3) where {N}
 
     #
     # for a single pauli Unitary, U = exp(-i θn Pn/2)
@@ -101,28 +101,37 @@ function exact_evolution(generators::PauliSum{N}, H::PauliSum{N}) where N
 end
 
 
-function evolve_Hamiltonian(A, H, ket, bfs_thresh, grad_thresh; max_iter=100, verbose=1, alpha=.1)
+"""
+    evolve_Hamiltonian(A, Hin, ket, bfs_thresh, grad_thresh; max_iter=100, verbose=1, alpha=.1)
 
-    
-    generators, curr_grad = ACSE.find_generator(A, H, ket)
+TBW
+"""
+function evolve_Hamiltonian(A, Hin, ket, bfs_thresh, grad_thresh; max_iter=100, verbose=1, alpha=.1)
+
+    H = deepcopy(Hin)
+   
+    generator_sequence = []
+    generators, curr_grad, op_idx = ACSE.find_generator(A, H, ket)
+
     verbose < 1 || @printf("Number of Paulis in Hamiltonian operator: %i\n", length(H))
 
-#    curr_grad = 0.057416530623 ## Hard-coded from adapt for H2
     generators *= curr_grad * alpha
     println("curr_grad ", curr_grad)
     gradients = []
     energies = []
     for iter in 1:max_iter
-        H_transformed = BFS(generators, H, ket, curr_grad, thresh=bfs_thresh)
-#        H_transformed = det_evolution(generators, H, ket, curr_grad, thresh=bfs_thresh)
-#        exact_evolution(generators, H)
+    
+        push!(generator_sequence, (op_idx, curr_grad*alpha))
+        H_transformed = BFS(generators, H, ket, thresh=bfs_thresh)
+        # H_transformed = det_evolution(generators, H, ket, thresh=bfs_thresh)
+        # exact_evolution(generators, H)
 
          
         energy = ACSE.calc_energy(H_transformed, ket)
-        verbose < 1 || @printf("Iter: %4i Energy: %10.8f+%10.8fi Gradient: %6.1e #Ops in H: %6i\n", iter, real(energy),imag(energy), abs(curr_grad), length(H_transformed))
+        verbose < 1 || @printf("Iter: %4i Energy: %10.8f + %10.8fi Gradient: %6.1e #Ops in H: %7i Op IDX: %4i\n", iter, real(energy),imag(energy), abs(curr_grad), length(H_transformed), op_idx)
         H = H_transformed
-        generators, curr_grad = ACSE.find_generator(A, H, ket)
-        @show generators
+        # generators, curr_grad, op_idx = ACSE.find_generator(A, H, ket)
+        generators, curr_grad, op_idx = ACSE.find_generator2(A, H, ket)
         generators *= curr_grad * alpha 
 
         push!(energies, energy)
@@ -130,5 +139,5 @@ function evolve_Hamiltonian(A, H, ket, bfs_thresh, grad_thresh; max_iter=100, ve
         abs(curr_grad) > grad_thresh || break 
     end
     
-    return H, energies, gradients
+    return H, energies, gradients, generator_sequence
 end
