@@ -46,6 +46,10 @@ A = ACSE.acse_residual_pool_test(norb, norb)
 ## Find transformed Heisenberg Hamiltonian
 H_transformed, energies, gradients, g_seq = ACSE.evolve_Hamiltonian(A, H, ket, bfs_thresh, grad_thresh, max_iter=50, verbose=1, alpha=.1)
 
+
+
+
+
 # new_gen = []
 # push!(new_gen, g_seq[1])
 # for gi in 2:length(g_seq)
