@@ -34,17 +34,13 @@ Na,Nb = ACSE.hubbard_number(graph)
 # ket = PauliOperators.KetBitString([1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0])
 ket = KetBitString([i<=n_elec for i in 1:N])
 
+H   = ACSE.particle_hole_transformation(H, ket)
+A   = ACSE.particle_hole_transformation(A, ket)
+Na  = ACSE.particle_hole_transformation(Na, ket)
+Nb  = ACSE.particle_hole_transformation(Nb, ket)
+A2  = ACSE.particle_hole_transformation(A2, ket)
+ket = ACSE.particle_hole_transformation(ket, ket)
 
-# do Particle Hole transformation
-# ket = PauliOperators.KetBitString(N, 0)
-# ph_trans = PauliSum(Pauli(N,X=[i for i in 1:n_elec]))
-# H = ph_trans * H * ph_trans
-# for ai in 1:length(A)
-#     A[ai] = ph_trans * A[ai] * ph_trans
-# end
-# for ai in 1:length(A2)
-#     A2[ai] = ph_trans * A2[ai] * ph_trans
-# end
 @show ket
 
 @show ACSE.calc_energy(Na+Nb,ket)

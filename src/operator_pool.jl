@@ -210,3 +210,37 @@ function find_generator2(A::Vector{PauliSum{N}}, H::PauliSum{N}, ket::KetBitStri
     #println("Current Index:", j)
     return curr_oper, max_grad, j
 end
+
+"""
+    particle_hole_transformation(p::KetBitString{N}, ψ::KetBitString{N}) where N
+
+TBW
+"""
+function particle_hole_transformation(p::KetBitString{N}, ψ::KetBitString{N}) where N
+    # do Particle Hole transformation
+    return KetBitString{N}(0) 
+end
+
+"""
+    particle_hole_transformation(O::PauliSum{N}, ψ::KetBitString{N}) where N
+
+TBW
+"""
+function particle_hole_transformation(O::PauliSum{N}, ψ::KetBitString{N}) where N
+    # do Particle Hole transformation
+    U = Pauli{N}(0, FixedPhasePauli{N}(0, ψ.v))
+    U = PauliSum(U)
+    return U * O * U
+end
+
+"""
+    particle_hole_transformation(O::Vector{PauliSum{N}}, ψ::KetBitString{N}) where N
+
+TBW
+"""
+function particle_hole_transformation(O::Vector{PauliSum{N}}, ψ::KetBitString{N}) where N
+    # do Particle Hole transformation
+    U = Pauli{N}(0, FixedPhasePauli{N}(0, ψ.v))
+    U = PauliSum(U)
+    return [U * oi * U for oi in O]
+end
