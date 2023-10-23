@@ -30,26 +30,21 @@ println(" Length of Pool:", length(A))
 Na,Nb = ACSE.hubbard_number(graph)
 
 
-ket = PauliOperators.KetBitString(N, 0)
 # ket = PauliOperators.KetBitString([1,0,0,1,1,0,0,1,1,0,0,1,1,0,0,1])
 # ket = PauliOperators.KetBitString([1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0])
-# ket = KetBitString([i<=n_elec for i in 1:N])
+ket = KetBitString([i<=n_elec for i in 1:N])
 
-#ph_trans = PauliSum(N)
-#for i in 1:n_elec
-#    global ph_trans += Pauli(N, X=[i])
-#    #global H = Xi * (H * Xi)
-#end
 
 # do Particle Hole transformation
-ph_trans = PauliSum(Pauli(N,X=[i for i in 1:n_elec]))
-H = ph_trans * H * ph_trans
-for ai in 1:length(A)
-    A[ai] = ph_trans * A[ai] * ph_trans
-end
-for ai in 1:length(A2)
-    A2[ai] = ph_trans * A2[ai] * ph_trans
-end
+# ket = PauliOperators.KetBitString(N, 0)
+# ph_trans = PauliSum(Pauli(N,X=[i for i in 1:n_elec]))
+# H = ph_trans * H * ph_trans
+# for ai in 1:length(A)
+#     A[ai] = ph_trans * A[ai] * ph_trans
+# end
+# for ai in 1:length(A2)
+#     A2[ai] = ph_trans * A2[ai] * ph_trans
+# end
 @show ket
 
 @show ACSE.calc_energy(Na+Nb,ket)
