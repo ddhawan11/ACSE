@@ -154,6 +154,18 @@ function acse_residual_pool_test(n_occ, n_vir)
     return acse_res
 end
 
+function zy_pool(N)
+    G = Vector{PauliSum{N}}([])
+    for i in 0:N-1
+        push!(G, PauliSum(Pauli(N, Y=[i+1], Z=[j for j in 1:i])))
+        #push!(G, PauliSum(Pauli(N, Y=[2*i], Z=[2*j for j in 1:i])))
+    end
+    for i in 1:N-2
+        push!(G, PauliSum(Pauli(N, Y=[i+1], Z=[j for j in 1:i-1])))
+        #push!(G, PauliSum(Pauli(N, Y=[2*i], Z=[2*j for j in 1:i])))
+    end
+    return G
+end
 
 function find_generator(A::Vector{PauliSum{N}}, H::PauliSum{N}, ket::KetBitString{N}) where N
     max_grad = 0.0

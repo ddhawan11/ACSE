@@ -106,12 +106,12 @@ end
 
 TBW
 """
-function evolve_Hamiltonian(A, Hin, ket, bfs_thresh, grad_thresh; max_iter=100, verbose=1, alpha=.1)
+function evolve_Hamiltonian(A::Vector{PauliSum{N}}, Hin::PauliSum{N}, ket::KetBitString{N}, bfs_thresh, grad_thresh; max_iter=100, verbose=1, alpha=.1) where N
 
     H = deepcopy(Hin)
    
-    generator_sequence = []
-    generators, curr_grad, op_idx = ACSE.find_generator(A, H, ket)
+    generator_sequence = Vector{Tuple{Int, ComplexF64}}([])
+    generators, curr_grad, op_idx = ACSE.find_generator2(A, H, ket)
 
     verbose < 1 || @printf("Number of Paulis in Hamiltonian operator: %i\n", length(H))
 
@@ -126,9 +126,16 @@ function evolve_Hamiltonian(A, Hin, ket, bfs_thresh, grad_thresh; max_iter=100, 
         # H_transformed = det_evolution(generators, H, ket, thresh=bfs_thresh)
         # exact_evolution(generators, H)
 
-         
+        l1 = 0.0
+        l2 = 0.0
+        for (hi,coeff) in H_transformed.ops
+            l2 += coeff*coeff
+            l1 += abs(coeff)
+        end
+        l2 = sqrt(l2)
+
         energy = ACSE.calc_energy(H_transformed, ket)
-        verbose < 1 || @printf("Iter: %4i Energy: %10.8f + %10.8fi Gradient: %6.1e #Ops in H: %7i Op IDX: %4i\n", iter, real(energy),imag(energy), abs(curr_grad), length(H_transformed), op_idx)
+        verbose < 1 || @printf("Iter: %4i Energy: %10.8f + %10.8fi Gradient: %6.1e #Ops in H: %7i L1: %12.8f L2: %12.8f Op IDX: %4i\n", iter, real(energy),imag(energy), abs(curr_grad), length(H_transformed), l1, l2, op_idx)
         H = H_transformed
         # generators, curr_grad, op_idx = ACSE.find_generator(A, H, ket)
         generators, curr_grad, op_idx = ACSE.find_generator2(A, H, ket)
@@ -140,4 +147,28 @@ function evolve_Hamiltonian(A, Hin, ket, bfs_thresh, grad_thresh; max_iter=100, 
     end
     
     return H, energies, gradients, generator_sequence
+end
+
+
+
+function evolve_Hamiltonian(A::Vector{PauliSum{N}}, generators::Vector{Tuple{Int, T}}, Hin::PauliSum{N}, ket, bfs_thresh; verbose=1) where {N,T}
+
+    H = deepcopy(Hin)
+   
+    verbose < 1 || @printf("Number of Paulis in Hamiltonian operator: %i\n", length(H))
+
+    energies = []
+    for (idx, gidx) in enumerate(generators)
+        Ai = A[gidx[1]]
+        coeff = gidx[2]
+        H_transformed = BFS(Ai*coeff, H, ket, thresh=bfs_thresh)
+         
+        energy = ACSE.calc_energy(H_transformed, ket)
+        verbose < 1 || @printf("Generator: %4i Energy: %10.8f + %10.8fi #Ops in H: %7i \n", idx, real(energy),imag(energy), length(H_transformed))
+        H = H_transformed
+
+        push!(energies, energy)
+    end
+    
+    return H, energies 
 end
