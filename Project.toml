@@ -5,9 +5,11 @@ version = "0.1.0"
 
 [deps]
 BlockDavidson = "b4c031f8-e7c9-4879-896c-063a10ff8103"
+IterTools = "c8e1da08-722c-5040-9ed9-7db0dc04731e"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 NPZ = "15e1cf62-19b3-5cfa-8e77-841668bca605"
 PauliOperators = "be646426-f34c-4536-b1d4-a45a9633e6db"
 Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 PyCall = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"
+StatProfilerHTML = "a8a75453-ed82-57c9-9e16-4cd1196ecbf5"
 UnitaryPruning = "944e96c2-c6c9-4ba0-b69d-e026960c3e5f"
