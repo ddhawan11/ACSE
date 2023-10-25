@@ -1,4 +1,3 @@
-
 using PauliOperators
 using UnitaryPruning
 using ACSE
@@ -6,8 +5,9 @@ using Printf
 using LinearAlgebra
 using BlockDavidson
 
-bfs_thresh  = 1e-8
-grad_thresh = 1e-8
+bfs_thresh    = 1e-8 
+grad_thresh   = 1e-8
+energy_thresh = 1e-8
 
 n_orbs = 8 
 n_elec = 8 
@@ -38,7 +38,7 @@ reference_energy = ACSE.calc_energy(H, ket)
 
 
 ## Find transformed Hamiltonian
-H_transformed, energies, gradients, g_seq = ACSE.evolve_Hamiltonian(A, H, ket, bfs_thresh, grad_thresh, max_iter=500, verbose=1, alpha=.1)
+H_transformed, energies, gradients, g_seq = ACSE.evolve_Hamiltonian(A, H, ket, bfs_thresh, grad_thresh, energy_thresh, max_iter=500, verbose=1, alpha=.1)
 
 M = 1
 scr = zeros(ComplexF64, 2^N, M)

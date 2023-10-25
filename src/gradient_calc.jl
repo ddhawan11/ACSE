@@ -37,3 +37,5 @@ function compute_grad2(A::PauliSum{N}, B::PauliSum{N}, ket) where N
 end
 
 
+
+
