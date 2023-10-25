@@ -16,9 +16,9 @@ version = "0.4.4"
 
 [[deps.Adapt]]
 deps = ["LinearAlgebra", "Requires"]
-git-tree-sha1 = "76289dc51920fdc6e0013c872ba9551d54961c24"
+git-tree-sha1 = "68c4c187a232e7abe00ac29e3b03e09af9d77317"
 uuid = "79e6a3ab-5dfb-504d-930d-738a2a938a0e"
-version = "3.6.2"
+version = "3.7.0"
 
 [[deps.ArgTools]]
 uuid = "0dad84c5-d112-42e6-8d28-ef12dabb789f"
@@ -208,9 +208,9 @@ version = "0.9.3"
 
 [[deps.Documenter]]
 deps = ["ANSIColoredPrinters", "AbstractTrees", "Base64", "Dates", "DocStringExtensions", "Downloads", "IOCapture", "InteractiveUtils", "JSON", "LibGit2", "Logging", "Markdown", "MarkdownAST", "Pkg", "PrecompileTools", "REPL", "RegistryInstances", "SHA", "Test", "Unicode"]
-git-tree-sha1 = "147a3cbb6ddcd9448fe5e6c426b347efc68f9c86"
+git-tree-sha1 = "662fb21ae7fad33e044c2b59ece832fdce32c171"
 uuid = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
-version = "1.1.1"
+version = "1.1.2"
 
 [[deps.Downloads]]
 deps = ["ArgTools", "LibCURL", "NetworkOptions"]
@@ -719,9 +719,9 @@ version = "2.7.2"
 
 [[deps.PauliOperators]]
 deps = ["BenchmarkTools", "BlockDavidson", "Documenter", "InteractiveUtils", "LinearAlgebra", "Printf", "Random", "StatProfilerHTML"]
-git-tree-sha1 = "21e30a2f87c3b29db2ed27e5b4b23d2868233900"
+git-tree-sha1 = "71f05b1fa8470a5ad67c4f25d9c9921120683900"
 repo-rev = "main"
-repo-url = "https://github.com/ddhawan11/PauliOperators.jl.git"
+repo-url = "https://github.com/nmayhall-vt/PauliOperators.jl"
 uuid = "be646426-f34c-4536-b1d4-a45a9633e6db"
 version = "1.0.0-DEV"
 
@@ -990,9 +990,9 @@ version = "0.4.1"
 
 [[deps.UnitaryPruning]]
 deps = ["BenchmarkTools", "BlockDavidson", "DataStructures", "Distributed", "Documenter", "Example", "InteractiveUtils", "IterTools", "LinearAlgebra", "NPZ", "Optim", "Parameters", "PauliOperators", "Plots", "Printf", "PushVectors", "PyCall", "Random", "Revise", "SpecialFunctions", "StatProfilerHTML", "StaticArrays", "Statistics", "Test"]
-git-tree-sha1 = "6cafc22108fd6a3e3609ea531c2a1c326abac753"
-repo-rev = "bitstrings"
-repo-url = "https://github.com/ddhawan11/UnitaryPruning.git"
+git-tree-sha1 = "eb1b5bc32df8a2af0f9054c7db6c3b186a0d16fd"
+repo-rev = "main"
+repo-url = "https://github.com/nmayhall-vt/UnitaryPruning"
 uuid = "944e96c2-c6c9-4ba0-b69d-e026960c3e5f"
 version = "0.1.0"
 

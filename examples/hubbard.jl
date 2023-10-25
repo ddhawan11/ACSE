@@ -6,7 +6,7 @@ using Printf
 using LinearAlgebra
 using BlockDavidson
 
-bfs_thresh  = 1e-5
+bfs_thresh  = 1e-4
 grad_thresh = 1e-8
 
 n_orbs = 8 
@@ -44,7 +44,7 @@ ket = ACSE.particle_hole_transformation(ket, ket)
 @show ket
 
 @show ACSE.calc_energy(Na+Nb,ket)
-@show ACSE.calc_energy(Na+-1*Nb,ket)
+@show ACSE.calc_energy(Na-Nb,ket)
 ## Reference Energy
 reference_energy = ACSE.calc_energy(H, ket)
 @printf("Reference energy: %10.8f\n", real(reference_energy))
