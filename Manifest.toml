@@ -719,7 +719,7 @@ version = "2.7.2"
 
 [[deps.PauliOperators]]
 deps = ["BenchmarkTools", "BlockDavidson", "Documenter", "InteractiveUtils", "LinearAlgebra", "Printf", "Random", "StatProfilerHTML"]
-git-tree-sha1 = "71f05b1fa8470a5ad67c4f25d9c9921120683900"
+git-tree-sha1 = "e89a7d27c2c54728b63870f4ab5dd8ef3fb4ae1f"
 repo-rev = "main"
 repo-url = "https://github.com/nmayhall-vt/PauliOperators.jl"
 uuid = "be646426-f34c-4536-b1d4-a45a9633e6db"
