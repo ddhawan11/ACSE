@@ -64,7 +64,8 @@ function evolve_Hamiltonian(A, Hin, ket, bfs_thresh, grad_thresh, energy_thresh;
     verbose < 1 || @printf("Number of Paulis in Hamiltonian operator: %i\n", length(H))
 
     generators *= curr_grad * alpha
-    println("curr_grad ", curr_grad)
+
+    verbose < 1 || @printf("Gradient: %6.1e #Ops in H: %7i Op IDX: %4i\n", abs(curr_grad), length(H), op_idx)
     gradients = []
     energies = []
     for iter in 1:max_iter

@@ -7,7 +7,7 @@ using StatProfilerHTML
 
 ED = false
 
-bfs_thresh     = 1e-5
+bfs_thresh     = 2e-5
 grad_thresh    = 1e-8
 energy_thresh  = 1e-8
 
@@ -19,6 +19,7 @@ N = 2*norb  # No. of spin orbitals
 ## Transform Molecular Hamiltonian through JW Mapping
 H = ACSE.transform_molecular_Hamiltonian("H6_0.75")
 #H = ACSE.transform_contracted_Hamiltonian("H6_0.75", N_el)
+
 
 if ED
     Hmat = Matrix(H)
@@ -46,6 +47,8 @@ A = ACSE.qubit_pool(N)
 
 
 ## Find transformed Heisenberg Hamiltonian
-H_transformed, energies, gradients, g_seq = ACSE.evolve_Hamiltonian(A, H, ket, bfs_thresh, grad_thresh, energy_thresh, max_iter=1000, verbose=1, alpha=0.1)
+H_transformed, energies, gradients, g_seq = ACSE.evolve_Hamiltonian(A, H, ket, bfs_thresh, grad_thresh, energy_thresh, max_iter=100, verbose=1, alpha=0.1)
+
+ACSE.extrapolate_normerror(H, H_transformed)
 
 
