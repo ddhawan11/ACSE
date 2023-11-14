@@ -44,10 +44,12 @@ reference_energy = ACSE.calc_energy(H, ket)
 ## Generate Operator Pool
 A = ACSE.qubit_pool(N)
 #A = ACSE.acse_residual_pool(N)
-
+ACSE.calc_entropy(H)
+ACSE.calc_ds(H, A)
 
 ## Find transformed Heisenberg Hamiltonian
 H_transformed, energies, gradients, g_seq = ACSE.evolve_Hamiltonian(A, H, ket, bfs_thresh, grad_thresh, energy_thresh, max_iter=1000, verbose=1, alpha=0.1)
+#ACSE.calc_ds(H_transformed, A)
 
 ACSE.extrapolate_normerror(H, H_transformed)
 

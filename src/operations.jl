@@ -12,23 +12,20 @@ function calc_energy(H, ket)
 end
 
 
-#Calculates the error in l^2 norm as the Hamiltonian evolves with a certain threshold (This will be extrapolated to zero error limit)
-function extrapolate_normerror(H::PauliSum{N}, H_transformed::PauliSum{N}) where N
+#Calculates the l2 norm of the operator H (Normalization factor not included)
+
+##There is a need to figure out why the Operator norm and the Matrix norm don't match.
+function oper_norm(H::PauliSum{N}) where N
     norm = 0
     for (key,value) in H.ops
         norm += abs(value^2)
     end
     
-    norm_transformed = 0
-    for (key,value) in H_transformed.ops
-        norm_transformed += abs(value^2)
-    end
     norm = sqrt(norm)
-    norm_transformed = sqrt(norm_transformed)
-    println("Norm: ", norm)
-    println("Norm_trans: ", norm_transformed)
-    println("error: ", norm-norm_transformed)
+    return norm
 end
+
+
 
 # Calculate the squared l2-norm of a matrix, same as opnorm(H_mat, 2)
 function calc_norm(H_mat)
@@ -39,4 +36,38 @@ function calc_norm(H_mat)
         end
     end
     return norm
+end
+
+
+# Calculates the derivative of shannon entropy of Hamiltonian entropy
+
+function calc_ds(H::PauliSum{N}, A) where N
+    deriv_s = 0.0
+
+    for (oi,oi_coeff) in H.ops
+        for a in A
+            sum_coeff = 0.0
+            for (g, g_coeff) in a.ops
+                if haskey(H,g*oi)
+                   sum_coeff += oi_coeff*g_coeff 
+                end
+            end
+        end
+    end
+    
+end    
+
+function calc_dpk(H::PauliSum{N}, A) where N
+    l2_norm = oper_norm(H)
+    
+end
+
+function calc_entropy(H)
+    l2_norm = oper_norm(H)
+    s = 0.0
+    for (oi,oi_coeff) in H.ops
+        pk = oi_coeff^2/l2_norm
+        s -= pk*log(pk) 
+    end
+    return(s)
 end
