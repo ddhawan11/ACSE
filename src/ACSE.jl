@@ -11,4 +11,5 @@ include("gradient_calc.jl")
 include("operations.jl")
 include("evolution.jl")
 include("hubbard.jl")
+include("entropy.jl")
 end

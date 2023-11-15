@@ -12,12 +12,12 @@ grad_thresh    = 1e-8
 energy_thresh  = 1e-8
 
 ##Need to set this automatically
-norb = 2    # No. of spatial orbitals
-N_el = 2    # No. of electrons
+norb = 4    # No. of spatial orbitals
+N_el = 4    # No. of electrons
 N = 2*norb  # No. of spin orbitals
 
 ## Transform Molecular Hamiltonian through JW Mapping
-H = ACSE.transform_molecular_Hamiltonian("H2_0.75")
+H = ACSE.transform_molecular_Hamiltonian("H4_0.75")
 #H = ACSE.transform_contracted_Hamiltonian("H6_0.75", N_el)
 
 
@@ -44,13 +44,15 @@ reference_energy = ACSE.calc_energy(H, ket)
 ## Generate Operator Pool
 A = ACSE.qubit_pool(N)
 #A = ACSE.acse_residual_pool(N)
-ACSE.calc_entropy(H)
-ACSE.calc_ds(H, A)
+println(ACSE.calc_entropy(H))
+println(ACSE.calc_ds(H, A))
+exit()
 
 ## Find transformed Heisenberg Hamiltonian
 H_transformed, energies, gradients, g_seq = ACSE.evolve_Hamiltonian(A, H, ket, bfs_thresh, grad_thresh, energy_thresh, max_iter=1000, verbose=1, alpha=0.1)
 #ACSE.calc_ds(H_transformed, A)
-
+println(ACSE.calc_entropy(H_transformed))
+exit()
 ACSE.extrapolate_normerror(H, H_transformed)
 
 

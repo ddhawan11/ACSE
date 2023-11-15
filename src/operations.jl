@@ -39,35 +39,3 @@ function calc_norm(H_mat)
 end
 
 
-# Calculates the derivative of shannon entropy of Hamiltonian entropy
-
-function calc_ds(H::PauliSum{N}, A) where N
-    deriv_s = 0.0
-
-    for (oi,oi_coeff) in H.ops
-        for a in A
-            sum_coeff = 0.0
-            for (g, g_coeff) in a.ops
-                if haskey(H,g*oi)
-                   sum_coeff += oi_coeff*g_coeff 
-                end
-            end
-        end
-    end
-    
-end    
-
-function calc_dpk(H::PauliSum{N}, A) where N
-    l2_norm = oper_norm(H)
-    
-end
-
-function calc_entropy(H)
-    l2_norm = oper_norm(H)
-    s = 0.0
-    for (oi,oi_coeff) in H.ops
-        pk = oi_coeff^2/l2_norm
-        s -= pk*log(pk) 
-    end
-    return(s)
-end
