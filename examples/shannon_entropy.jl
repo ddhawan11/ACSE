@@ -45,7 +45,7 @@ reference_energy = ACSE.calc_energy(H, ket)
 A = ACSE.qubit_pool(N)
 #A = ACSE.acse_residual_pool(N)
 println(ACSE.calc_entropy(H))
-println(ACSE.calc_ds(H, A))
+ACSE.calc_ds(H, A)
 exit()
 
 ## Find transformed Heisenberg Hamiltonian

@@ -71,7 +71,7 @@ function evolve_Hamiltonian(A, Hin, ket, bfs_thresh, grad_thresh, energy_thresh;
     for iter in 1:max_iter
     
         push!(generator_sequence, (op_idx, curr_grad*alpha))
-        H_transformed = BFS(generators, H, ket, thresh=bfs_thresh)
+        H_transformed = BFS(generators, H, thresh=bfs_thresh)
         # exact_evolution(generators, H)
 
          
